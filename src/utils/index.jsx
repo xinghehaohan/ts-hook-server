@@ -17,15 +17,10 @@ export const useMount = (callback) => {
 };
 
 export const useDebounce = (value, delay) => {
-  
-  
-    const [debouncedParam, setDebouncedParam] = useState(value);
+  const [debouncedParam, setDebouncedParam] = useState(value);
   useEffect(() => {
-
-
-
     const timeout = setTimeout(() => setDebouncedParam(value), delay);
-    return () => clearTimeout(timeout)
-  }, [value, delay]) 
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
   return debouncedParam;
 };
