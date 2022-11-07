@@ -1,5 +1,11 @@
 import React from "react";
-export const List = ({ users, list }) => {
+import { User } from "../../types/user";
+import { Project } from "../../types/project";
+interface ListProps {
+  users: User[];
+  list: Project[];
+}
+export const List = ({ users, list }: ListProps) => {
   return (
     <div>
       <table>
