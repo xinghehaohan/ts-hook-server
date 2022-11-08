@@ -1,6 +1,7 @@
-import React, { FormEvent, FormEventHandler } from "react";
-const apiUrl = process.env.REACT_APP_API_URL;
+import React, { FormEvent } from "react";
+import { Form, Input, Button } from "antd";
 
+const apiUrl = process.env.REACT_APP_API_URL;
 export const Login = () => {
   const loginPost = (param: { username: string; password: string }) => {
     fetch(`${apiUrl}/login`, {
@@ -24,16 +25,19 @@ export const Login = () => {
     loginPost({ username, password });
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="username">username</label>
-        <input type="text" name="username" />
-      </div>
-      <div>
+    <Form onFinish={handleSubmit}>
+      <Form.Item name="username">
+        <Input type="text" name="username" />
+      </Form.Item>
+      <Form.Item name="password">
         <label htmlFor="password"></label>
-        <input type="password" name="password" id="password" />
-      </div>
-      <button type="submit">login</button>
-    </form>
+        <Input type="password" name="password" id="password" />
+      </Form.Item>
+      <Form.Item>
+        <Button type={"primary"} htmlType={"submit"}>
+          login
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
