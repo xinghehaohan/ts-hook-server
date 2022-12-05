@@ -11,6 +11,12 @@ module.exports = (req, res, next) => {
         error: "username or password is wrong!",
       });
     }
+  } else if (req.method === "POST" && req.path === "/register") {
+    return res.status(200).json({
+      user: {
+        token: new Date().getTime(),
+      },
+    });
   }
   next();
 };

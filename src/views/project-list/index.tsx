@@ -3,37 +3,47 @@ import { useState, useEffect } from "react";
 import { SearchPanel } from "./serch-panel";
 import { List } from "./list";
 import { cleanObject, useMount, useDebounce } from "../../utils";
+// import {
+//   useProjectModal,
+//   useProjectsSearchParams,
+// } from "screens/project-list/util";
+import {
+  ButtonNoPadding,
+  ErrorBox,
+  Row,
+  ScreenContainer,
+} from "components/lib";
 import qs from "qs";
+import { useUsers } from "utils/user";
+// import { useProjects } from "utils/projects";
+import { useAsync } from "utils/use-async";
+import { Project } from "types/project";
+import { useHttp } from "utils/http";
+
 const apiUrl = process.env.REACT_APP_API_URL;
+
 export const ProjectListScreen = () => {
+  const client = useHttp();
   const [param, setParam] = useState({
     name: "",
     personId: "",
   });
-  const [users, SetUsers] = useState([]);
-  const [list, setList] = useState([]);
   const debouncedParam = useDebounce(param, 500);
-  useEffect(() => {
-    fetch(
-      `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`
-    ).then(async (res) => {
-      if (res.ok) {
-        setList(await res.json());
-      }
-    });
-  }, [debouncedParam]);
 
-  useMount(() => {
-    fetch(`${apiUrl}/users`).then(async (res) => {
-      if (res.ok) {
-        SetUsers(await res.json());
-      }
-    });
-  });
+  const { run, isLoading, error, data: list } = useAsync<Project[]>();
+  const { data: users } = useUsers();
+
+  useEffect(() => {
+    run(client("projects", { data: cleanObject(debouncedParam) }));
+  }, [debouncedParam]);
   return (
-    <div>
-      <SearchPanel param={param} setParam={setParam} users={users} />
-      <List users={users} list={list} />
-    </div>
+    <ScreenContainer>
+      <Row marginBottom={2} between={true}>
+        <h1>项目列表</h1>
+        <ButtonNoPadding type={"link"}>创建项目</ButtonNoPadding>
+      </Row>
+      <SearchPanel param={param} setParam={setParam} />
+      <List users={users || []} dataSource={list || []} />
+    </ScreenContainer>
   );
 };

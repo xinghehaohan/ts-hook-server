@@ -1,48 +1,50 @@
 import React from "react";
-import { User } from "../../types/user";
+import { Form, Input } from "antd";
+import { UserSelect } from "components/user-select";
+import { Project } from "types/project";
+
+// interface SearchPanelProps {
+//   param: Partial<Pick<Project, "name" | "personId">>;
+//   setParam: (param: SearchPanelProps["param"]) => void;
+// }
+
 interface SearchPanelProps {
-  users: User[];
   param: {
-    name: string;
     personId: string;
+    name: string;
   };
   setParam: (param: SearchPanelProps["param"]) => void;
 }
-export const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
+
+export const SearchPanel = ({ param, setParam }: SearchPanelProps) => {
   return (
-    <form>
-      <div>
-        <input
+    <Form style={{ marginBottom: "2rem" }} layout={"inline"}>
+      <Form.Item>
+        {/*setParam(Object.assign({}, param, {name:evt.target.value}))*/}
+        <Input
+          placeholder={"项目名"}
           type="text"
           value={param.name}
-          onChange={(e) =>
+          onChange={(evt) =>
             setParam({
               ...param,
-              name: e.target.value,
+              name: evt.target.value,
             })
           }
         />
-        <select
+      </Form.Item>
+      <Form.Item>
+        <UserSelect
+          defaultOptionName={"负责人"}
           value={param.personId}
-          onChange={(e) =>
+          onChange={(value: any) =>
             setParam({
               ...param,
-              personId: e.target.value,
+              personId: value,
             })
           }
-        >
-          <option value="" key="fuzeren">
-            负责人
-          </option>
-          {users?.map(({ id, name }) => {
-            return (
-              <option key={id} value={id}>
-                {name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    </form>
+        />
+      </Form.Item>
+    </Form>
   );
 };

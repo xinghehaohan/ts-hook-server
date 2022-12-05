@@ -44,3 +44,31 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+jira-dev-tool 安装完成 请求接口报 404 问题
+npx msw init public
+//或者 指定到 public 目录下
+npx msw init ./public
+
+npx imooc-jira-tool
+
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { loadDevTools } from "jira-dev-tool";
+
+loadDevTools(() =>
+ReactDOM.render(
+<React.StrictMode>
+<App />
+</React.StrictMode>,
+document.getElementById("root")
+)
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
