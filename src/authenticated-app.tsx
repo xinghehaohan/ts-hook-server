@@ -10,7 +10,7 @@ import { Navigate, Route, Routes } from "react-router";
 // import { ProjectScreen } from "screens/project";
 import { resetRoute } from "utils";
 // import { ProjectModal } from "screens/project-list/project-modal";
-// import { ProjectPopover } from "components/project-popover";
+import { ProjectPopover } from "components/project-popover";
 import { UserPopover } from "components/user-popover";
 export const AuthenticatedApp = () => {
   return (
@@ -33,9 +33,9 @@ const PageHeader = () => {
     <Header between={true}>
       <HeaderLeft gap={true}>
         <ButtonNoPadding type={"link"} onClick={resetRoute}>
-          <SoftwareLogo width={"14rem"} color={"rgb(38, 132, 255)"} />
+          <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </ButtonNoPadding>
-        {/* <ProjectPopover /> */}
+        <ProjectPopover />
         <UserPopover />
       </HeaderLeft>
       <HeaderRight>

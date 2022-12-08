@@ -45,6 +45,9 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
+Common types according to commitlint-config-conventional can be:
+build chore ci docs feat fix perf refactor revert style test
+
 jira-dev-tool 安装完成 请求接口报 404 问题
 npx msw init public
 //或者 指定到 public 目录下

@@ -5,12 +5,9 @@ import { TableProps } from "antd/es/table";
 // react-router 和 react-router-dom的关系，类似于 react 和 react-dom/react-native/react-vr...
 import { Link } from "react-router-dom";
 import { Pin } from "components/pin";
-// import { useDeleteProject, useEditProject } from "utils/project";
+import { useDeleteProject, useEditProject } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
-// import {
-//   useProjectModal,
-//   useProjectsQueryKey,
-// } from "screens/project-list/util";
+import { useProjectModal, useProjectsQueryKey } from "./until";
 import { Project } from "types/project";
 import { User } from "types/user";
 
@@ -19,8 +16,8 @@ interface ListProps extends TableProps<Project> {
 }
 
 export const List = ({ users, ...props }: ListProps) => {
-  // const { mutate } = useEditProject(useProjectsQueryKey());
-  // const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
+  const { mutate } = useEditProject(useProjectsQueryKey());
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
   return (
     <Table
       rowKey={"id"}
@@ -32,7 +29,7 @@ export const List = ({ users, ...props }: ListProps) => {
             return (
               <Pin
                 checked={project.pin}
-                // onCheckedChange={pinProject(project.id)}
+                onCheckedChange={pinProject(project.id)}
               />
             );
           },
@@ -83,16 +80,16 @@ export const List = ({ users, ...props }: ListProps) => {
 };
 
 const More = ({ project }: { project: Project }) => {
-  // const { startEdit } = useProjectModal();
-  // const editProject = (id: number) => () => startEdit(id);
-  // const { mutate: deleteProject } = useDeleteProject(useProjectsQueryKey());
+  const { startEdit } = useProjectModal();
+  const editProject = (id: number) => () => startEdit(id);
+  const { mutate: deleteProject } = useDeleteProject(useProjectsQueryKey());
   const confirmDeleteProject = (id: number) => {
     Modal.confirm({
       title: "确定删除这个项目吗?",
       content: "点击确定删除",
       okText: "确定",
       onOk() {
-        // deleteProject({ id });
+        deleteProject({ id });
       },
     });
   };
@@ -100,8 +97,8 @@ const More = ({ project }: { project: Project }) => {
     <Dropdown
       overlay={
         <Menu>
-          {/* <Menu.Item onClick={editProject(project.id)} key={"edit"}> */}
-          <Menu.Item onClick={() => alert(project.id)} key={"edit"}>
+          <Menu.Item onClick={editProject(project.id)} key={"edit"}>
+            {/* <Menu.Item onClick={() => alert(project.id)} key={"edit"}> */}
             编辑
           </Menu.Item>
           <Menu.Item

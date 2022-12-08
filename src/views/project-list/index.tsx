@@ -3,10 +3,9 @@ import { useState, useEffect } from "react";
 import { SearchPanel } from "./serch-panel";
 import { List } from "./list";
 import { cleanObject, useMount, useDebounce } from "../../utils";
-// import {
-//   useProjectModal,
-//   useProjectsSearchParams,
-// } from "screens/project-list/util";
+import { useProjectModal, useProjectsSearchParams } from "./until";
+
+import { ProjectModal } from "./project-modal";
 import {
   ButtonNoPadding,
   ErrorBox,
@@ -23,7 +22,12 @@ import { useHttp } from "utils/http";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectListScreen = () => {
+  const { open } = useProjectModal();
   const client = useHttp();
+  const [param1, setParam1] = useProjectsSearchParams();
+
+  console.log(param1);
+
   const [param, setParam] = useState({
     name: "",
     personId: "",
@@ -40,10 +44,13 @@ export const ProjectListScreen = () => {
     <ScreenContainer>
       <Row marginBottom={2} between={true}>
         <h1>项目列表</h1>
-        <ButtonNoPadding type={"link"}>创建项目</ButtonNoPadding>
+        <ButtonNoPadding type={"link"} onClick={open}>
+          创建项目
+        </ButtonNoPadding>
       </Row>
       <SearchPanel param={param} setParam={setParam} />
       <List users={users || []} dataSource={list || []} />
+      <ProjectModal />
     </ScreenContainer>
   );
 };
